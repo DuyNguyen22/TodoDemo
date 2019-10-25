@@ -7,8 +7,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "webpack --mode production",
-    "start": "webpack-dev-server --open --content-base dev"
+    "build": "webpack --mode production --progress --env prod",
+    "start": "webpack-dev-server --open  --content-base dev --env dev"
   },
   "dependencies": {
     "css-loader": "^3.2.0",

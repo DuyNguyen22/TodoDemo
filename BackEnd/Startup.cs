@@ -110,7 +110,7 @@ namespace WebApi
             // app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions()
             {
-                 FileProvider = new PhysicalFileProvider(Path.Combine(@"C:\test\Automation\aspnet-core-3-registration-login-api")),
+                FileProvider = new PhysicalFileProvider(env.ContentRootPath),
             //     //RequestPath = "/"
             });
 

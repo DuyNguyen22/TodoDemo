@@ -30,3 +30,7 @@ node_modules/
 # Visual Studio settings
 .vs/
 /BackEnd/.vscode/settings.json
+/FrontEnd/dist
+/BackEnd/index.html
+/BackEnd/main.js
+/BackEnd/main.js.map
