@@ -7,6 +7,7 @@ import { alert } from './alert.reducer';
 import { profile } from './profile.reducer';
 import { todos } from './todos.reducer';
 import { category } from './categories.reducer'
+import { tag } from './tags.reducer'
 //import { } from 
 
 const rootReducer = combineReducers({
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   alert,
   profile,
   todos,
-  category
+  category,
+  tag
 });
 
 export default rootReducer;

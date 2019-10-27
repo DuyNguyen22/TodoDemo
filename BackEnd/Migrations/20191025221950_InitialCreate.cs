@@ -14,7 +14,8 @@ namespace WebApi.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(maxLength: 100, nullable: false),
-                    Description = table.Column<string>(maxLength: 255, nullable: true)
+                    Description = table.Column<string>(maxLength: 255, nullable: true),
+                    BackgroundColor = table.Column<string>(maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,7 +66,7 @@ namespace WebApi.Migrations
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     IsCompleted = table.Column<bool>(nullable: false),
                     CreatedBy = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: true)
+                    CategoryId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,7 +76,7 @@ namespace WebApi.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Todos_Users_CreatedBy",
                         column: x => x.CreatedBy,
@@ -110,13 +111,13 @@ namespace WebApi.Migrations
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Description", "Title" },
+                columns: new[] { "Id", "BackgroundColor", "Description", "Title" },
                 values: new object[,]
                 {
-                    { 1, "National information", "National" },
-                    { 2, "Fashion information", "Fashion" },
-                    { 3, "Learning information", "Learning" },
-                    { 4, "Hobby information", "Hobby" }
+                    { 1, "#DDEBF7", "National information", "National" },
+                    { 2, "#FEF6F6", "Fashion information", "Fashion" },
+                    { 3, "#FAE2E2", "Learning information", "Learning" },
+                    { 4, "#FBE6A2", "Hobby information", "Hobby" }
                 });
 
             migrationBuilder.InsertData(
@@ -133,7 +134,34 @@ namespace WebApi.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Birthdate", "FirstName", "IsAdmin", "IsBlocked", "LastName", "PasswordHash", "PasswordSalt", "Username" },
-                values: new object[] { 1, new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin", true, false, "System", new byte[] { 199, 137, 184, 239, 124, 152, 39, 129, 84, 76, 159, 165, 11, 11, 108, 201, 203, 107, 0, 177, 64, 42, 163, 46, 177, 147, 96, 139, 15, 99, 118, 212, 241, 164, 152, 68, 207, 186, 181, 104, 120, 141, 157, 110, 226, 195, 216, 86, 163, 50, 114, 138, 42, 16, 213, 192, 171, 234, 216, 7, 175, 19, 191, 221 }, new byte[] { 223, 64, 31, 164, 207, 79, 51, 49, 18, 66, 117, 138, 17, 166, 4, 183, 36, 213, 161, 198, 107, 224, 0, 178, 53, 45, 56, 195, 38, 160, 162, 160, 49, 62, 247, 226, 98, 83, 213, 173, 148, 116, 48, 118, 27, 114, 229, 101, 0, 146, 106, 137, 144, 124, 165, 52, 234, 23, 159, 17, 186, 8, 8, 166, 178, 106, 51, 44, 246, 20, 155, 145, 223, 134, 134, 79, 138, 186, 199, 176, 180, 164, 69, 12, 65, 85, 67, 249, 167, 101, 161, 153, 20, 42, 34, 246, 173, 187, 114, 173, 9, 129, 254, 221, 191, 2, 143, 117, 219, 156, 119, 1, 161, 96, 44, 239, 6, 115, 10, 216, 108, 49, 111, 206, 135, 181, 103, 156 }, "Admin" });
+                values: new object[] { 1, new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin", true, false, "System", new byte[] { 83, 97, 44, 201, 241, 5, 130, 46, 188, 209, 253, 16, 53, 237, 15, 51, 127, 96, 165, 56, 164, 58, 126, 240, 172, 130, 8, 165, 231, 158, 69, 18, 18, 232, 166, 235, 246, 144, 26, 147, 12, 151, 168, 34, 69, 117, 205, 63, 113, 90, 39, 227, 191, 121, 193, 249, 220, 146, 52, 37, 31, 85, 150, 98 }, new byte[] { 215, 196, 207, 187, 231, 194, 23, 205, 213, 36, 78, 157, 46, 118, 174, 92, 63, 46, 189, 234, 237, 51, 129, 108, 206, 164, 49, 42, 115, 77, 134, 16, 221, 92, 61, 249, 152, 42, 194, 169, 208, 245, 63, 199, 80, 221, 174, 4, 24, 108, 217, 167, 0, 172, 62, 252, 2, 98, 103, 192, 68, 105, 219, 240, 241, 201, 177, 26, 236, 124, 115, 158, 165, 120, 65, 28, 85, 155, 57, 26, 53, 104, 153, 10, 108, 9, 199, 186, 196, 69, 156, 155, 158, 35, 118, 6, 38, 235, 253, 127, 208, 250, 103, 225, 33, 197, 16, 241, 71, 67, 68, 145, 247, 247, 239, 244, 197, 126, 69, 54, 164, 98, 130, 164, 94, 55, 176, 67 }, "Admin" });
+
+            migrationBuilder.InsertData(
+                table: "Todos",
+                columns: new[] { "Id", "CategoryId", "CreatedBy", "CreatedDate", "Description", "IsCompleted", "Title" },
+                values: new object[,]
+                {
+                    { 1, 2, 1, new DateTime(2019, 10, 26, 5, 19, 50, 482, DateTimeKind.Local).AddTicks(520), "Desciption-1", false, "Title-1" },
+                    { 18, 3, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1436), "Desciption-18", false, "Title-18" },
+                    { 17, 2, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1433), "Desciption-17", false, "Title-17" },
+                    { 16, 1, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1429), "Desciption-16", false, "Title-16" },
+                    { 15, 4, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1426), "Desciption-15", false, "Title-15" },
+                    { 14, 3, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1422), "Desciption-14", false, "Title-14" },
+                    { 13, 2, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1419), "Desciption-13", false, "Title-13" },
+                    { 12, 1, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1415), "Desciption-12", false, "Title-12" },
+                    { 11, 4, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1412), "Desciption-11", false, "Title-11" },
+                    { 10, 3, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1408), "Desciption-10", false, "Title-10" },
+                    { 9, 2, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1404), "Desciption-9", false, "Title-9" },
+                    { 8, 1, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1401), "Desciption-8", false, "Title-8" },
+                    { 7, 4, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1397), "Desciption-7", false, "Title-7" },
+                    { 6, 3, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1393), "Desciption-6", false, "Title-6" },
+                    { 5, 2, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1390), "Desciption-5", false, "Title-5" },
+                    { 4, 1, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1386), "Desciption-4", false, "Title-4" },
+                    { 3, 4, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1381), "Desciption-3", false, "Title-3" },
+                    { 2, 3, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1316), "Desciption-2", false, "Title-2" },
+                    { 19, 4, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1440), "Desciption-19", false, "Title-19" },
+                    { 20, 1, 1, new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1443), "Desciption-20", false, "Title-20" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Todos_CategoryId",

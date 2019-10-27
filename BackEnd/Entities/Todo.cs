@@ -7,6 +7,11 @@ namespace WebApi.Entities
 {
     public class Todo
     {
+        public Todo()
+        {
+            TodoTags = new List<TodoTag>();
+        }
+
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -19,7 +24,7 @@ namespace WebApi.Entities
 
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
         // [ForeignKey("TodoId")]
         public virtual ICollection<TodoTag> TodoTags { get; set; }

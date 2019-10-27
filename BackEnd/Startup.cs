@@ -12,12 +12,11 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
 using Microsoft.Extensions.FileProviders;
-using System.IO;
 using System.Collections.Generic;
 
 namespace WebApi
 {
-  public class Startup
+    public class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -29,22 +28,25 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // configure strongly typed settings objects
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+            var appSettings = appSettingsSection.Get<AppSettings>();
+
             services.AddCors();
             services.AddDbContext<DataContext>(x => 
             {
                 //x.UseInMemoryDatabase("TestDb");
-                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                //x.UseInMemoryDatabase("");
+                //x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                if (appSettings.UseInMemoryDatabase)
+                    x.UseInMemoryDatabase("TodoDb");
+                else
+                    x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            // configure strongly typed settings objects
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-
             // configure jwt authentication
-            var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
             {
@@ -83,6 +85,8 @@ namespace WebApi
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITodoService, TodoService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ITagService, TagService>();
+            services.AddSingleton<AppSettings>(appSettings);
             services.AddMvc(option => 
             {
                 option.EnableEndpointRouting = false;
@@ -131,6 +135,15 @@ namespace WebApi
                     template: "**",
                     defaults: new { controller = "Home", action = "Index" });
             });
+        }
+
+        private static void SeedData(DataContext context)
+        {
+            context.Users.AddRange(DataContextSeeder.CreateSeedUser());
+            context.Categories.AddRange(DataContextSeeder.CreateSeedCategory());
+            context.Todos.AddRange(DataContextSeeder.CreateSeedTodo());
+            context.Tags.AddRange(DataContextSeeder.CreateSeedTag());
+            context.SaveChanges();
         }
     }
 }

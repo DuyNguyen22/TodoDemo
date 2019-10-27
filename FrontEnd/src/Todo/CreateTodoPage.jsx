@@ -5,14 +5,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import "../styles/custom-datepicker.css";
 
-import { todoActions, categoryActions } from "../_actions";
+import { todoActions, categoryActions, tagsActions } from "../_actions";
 import { nameOf } from "../_helpers/uility";
 import {
   Pane,
   TextInputField,
   Button,
   FormField,
-  Combobox
+  Combobox,
+  SelectMenu
 } from "evergreen-ui";
 
 class CreateTodoPage extends React.Component {
@@ -23,7 +24,8 @@ class CreateTodoPage extends React.Component {
       todo: {
         title: "",
         description: "",
-        categoryId: ""
+        categoryId: "",
+        tags: []
       },
       submitted: false
     };
@@ -31,6 +33,30 @@ class CreateTodoPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSelectedCategory = this.handleSelectedCategory.bind(this);
+    this.handleSelectTag = this.handleSelectTag.bind(this);
+    this.handleDeselectTag = this.handleDeselectTag.bind(this);
+  }
+
+  handleSelectTag(tag) {
+    const { todo } = this.state;
+    const tags = [...todo.tags, tag];
+    this.setState({
+      todo: {
+        ...todo,
+        tags: tags
+      }
+    });
+  }
+
+  handleDeselectTag(tag) {
+    const { todo } = this.state;
+    const tags = [...todo.tags].filter(x => x.value !== tag.value);
+    this.setState({
+      todo: {
+        ...todo,
+        tags: tags
+      }
+    });
   }
 
   handleChange(event) {
@@ -48,9 +74,11 @@ class CreateTodoPage extends React.Component {
     event.preventDefault();
 
     this.setState({ submitted: true });
-    const { todo } = this.state;
-    if (todo.title && todo.description && todo.categoryId) {
-      this.props.create(todo);
+    const { tags, ...todoParam } = this.state.todo;
+    tags && (todoParam.tags = tags.map(x => ({ id: parseInt(x.value) })));
+    //todoParam = { tags, ...todo };
+    if (todoParam.title && todoParam.description && todoParam.categoryId) {
+      this.props.create(todoParam);
     }
   }
 
@@ -66,21 +94,30 @@ class CreateTodoPage extends React.Component {
 
   componentDidMount() {
     this.props.loadCategories();
+    this.props.loadTags();
   }
 
   render() {
     const { todo, submitted } = this.state;
+    const { tags: selectedTags } = todo;
     //if (!categoriesLoaded) return <div>loading ...</div>;
-    const { category: { loading, items: categories } } = this.props;
+    const {
+      category: { loading: loadingCategory, items: categories },
+      tag: { loading: loadingTag, items: tags }
+    } = this.props;
     const { title, description, categoryId } = todo;
-    const selected = categories ? (categories.find(x => x.id === categoryId) || categories[0]) : {};
+    const selected = categories
+      ? categories.find(x => x.id === categoryId) || categories[0]
+      : {};
     //selected && selected.id && this//this.handleSelectedCategory(selected);
     //const categories = category.items;
     return (
       <Pane width={400} marginTop={50}>
-        {loading && <em>Loading users...</em>}
-        {!loading && !categories && <div>Could not load category</div>}
-        {categories && (
+        {loadingCategory && <em>Loading categories...</em>}
+        {!loadingCategory && !categories && <div>Could not load category</div>}
+        {loadingTag && <em>Loading tags...</em>}
+        {!loadingTag && !tags && <div>Could not load tag</div>}
+        {categories && tags && (
           <form name="form" onSubmit={this.handleSubmit}>
             <TextInputField
               isInvalid={submitted && !title}
@@ -100,12 +137,33 @@ class CreateTodoPage extends React.Component {
             <FormField label="Category">
               <Combobox
                 //initialSelectedItem={selected}
-                style={submitted && !categoryId ? { borderColor: 'red', borderStyle: 'solid' } : {}}
+                style={
+                  submitted && !categoryId
+                    ? { borderColor: "red", borderStyle: "solid" }
+                    : {}
+                }
                 items={categories}
-                itemToString={item => item ? item.title : ''}
+                itemToString={item => (item ? item.title : "")}
                 onChange={item => this.handleSelectedCategory(item)}
                 required
+                width="100%"
               />
+            </FormField>
+            <FormField label="Tag">
+              <SelectMenu
+                isMultiSelect
+                title="Select tags"
+                options={tags.map(x => ({ label: x.name, value: x.id.toString() }))}
+                selected={selectedTags.map(x => x.value.toString())}
+                onSelect={tag => this.handleSelectTag(tag)}
+                onDeselect={tag => this.handleDeselectTag(tag)}
+              >
+                <Button onClick={() => false} type="button">
+                  {selectedTags && selectedTags.length > 0
+                    ? selectedTags.map(x => x.label).join(', ')
+                    : "Select multiple..."}
+                </Button>
+              </SelectMenu>
             </FormField>
 
             <FormField isRequired={false} label=" ">
@@ -122,13 +180,14 @@ class CreateTodoPage extends React.Component {
 }
 
 function mapState(state) {
-  const { category } = state;
-  return { category };
+  const { category, tag } = state;
+  return { category, tag };
 }
 
 const actionCreators = {
   create: todoActions.create,
-  loadCategories: categoryActions.getAll
+  loadCategories: categoryActions.getAll,
+  loadTags: tagsActions.getAll
 };
 
 const connectedCreateTodoPage = connect(

@@ -9,6 +9,7 @@ using WebApi.Services;
 using WebApi.Entities;
 using WebApi.Models.Users;
 using System.Linq;
+using WebApi.Models.Tags;
 
 namespace WebApi.Controllers
 {
@@ -31,6 +32,7 @@ namespace WebApi.Controllers
             _appSettings = appSettings.Value;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("getbyuser/{id}")]
         public IActionResult GetByUser(int id)
         {
@@ -43,8 +45,14 @@ namespace WebApi.Controllers
         public IActionResult GetAll()
         {
             var userId = Convert.ToInt32(this.User.Identity.Name);
-            var todos = _todoService.GetAll().Where(x => x.CreatedBy == userId);
+            var todos = _todoService.GetByUser(userId);
+            // .GetAll().Where(x => x.CreatedBy == userId);
             var model = _mapper.Map<IList<TodoModel>>(todos).ToList();
+            foreach (var todo in todos.Where(x => x.TodoTags != null && x.TodoTags.Any()))
+            {
+                var todoModel = model.First(x => x.Id == todo.Id);
+                todoModel.Tags.AddRange(todo.TodoTags.Select(x => _mapper.Map<TagModel>(x.Tag)));
+            }
             return Ok(model);
         }
 
@@ -95,11 +103,18 @@ namespace WebApi.Controllers
             var todo = _mapper.Map<Todo>(model);
             try
             {
+                if (model.Tags != null && model.Tags.Any())
+                {
+                    foreach (var tagModel in model.Tags)
+                    {
+                        todo.TodoTags.Add(new TodoTag { Todo = todo, TagId = tagModel.Id });
+                    }
+                }
                 // create user
                 todo.CreatedDate = DateTime.Now;
                 todo.CreatedBy = Convert.ToInt32(User.Identity.Name);
-                _todoService.Create(todo);
-                return Ok();
+                var result = _todoService.Create(todo);
+                return Ok(_mapper.Map<TodoModel>(result));
             }
             catch (AppException ex)
             {

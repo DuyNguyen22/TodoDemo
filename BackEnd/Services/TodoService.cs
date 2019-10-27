@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Entities;
 using WebApi.Helpers;
 
@@ -46,7 +47,7 @@ namespace WebApi.Services
 
         public IEnumerable<Todo> GetAll()
         {
-            return _context.Todos;
+            return _context.Todos.Include(x => x.Category);
         }
 
         public Todo GetById(int id)
@@ -56,7 +57,11 @@ namespace WebApi.Services
 
         public IEnumerable<Todo> GetByUser(int userId)
         {
-            return _context.Todos.Where(x => x.CreatedBy == userId);
+            return _context.Todos
+                .Include(x => x.TodoTags)
+                .Include("TodoTags.Tag")
+                .Include(x => x.Category)
+                .Where(x => x.CreatedBy == userId);
         }
 
         public void MarkCompleted(int id)

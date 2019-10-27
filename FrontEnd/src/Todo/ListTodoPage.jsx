@@ -49,7 +49,7 @@ class ListTodoPage extends React.Component {
               margin={10}
               padding={10}
               float="left"
-              backgroundColor={ todo.isCompleted ? "#D4EEE2" : "#DDEBF7" }
+              backgroundColor={ todo.isCompleted ? "#D4EEE2" : todo.categoryBackgroundColor }
               borderRadius={6}
             >
               <Heading>{todo.title}</Heading>
