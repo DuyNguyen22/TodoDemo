@@ -6,4 +6,4 @@ npm run build
 
 Copy-Item "$PSScriptRoot/FrontEnd/dist/*" "$PSScriptRoot/BackEnd" -Force -Verbose
 
-dotnet run --project "$PSScriptRoot/BackEnd/WebApi.csproj"
+#dotnet run --project "$PSScriptRoot/BackEnd/WebApi.csproj"
