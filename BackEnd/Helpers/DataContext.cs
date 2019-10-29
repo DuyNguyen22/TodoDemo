@@ -10,6 +10,11 @@ namespace WebApi.Helpers
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
+        public DbSet<User> Users { get; set; }
+        public DbSet<Todo> Todos { get; set; }
+        public DbSet<TodoTag> TodoTags { get; set; }
+        public DbSet<Category> Categories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -48,30 +53,22 @@ namespace WebApi.Helpers
                 entity.HasData(DataContextSeeder.CreateSeedTodo().ToArray());
             });
 
-            modelBuilder.Entity<Tag>(entity =>
-            {
-                entity.HasKey(x => x.Id);
-                entity.Property(x => x.Name).HasMaxLength(100).IsRequired();
-                entity.HasData(DataContextSeeder.CreateSeedTag());
-            });
+            // modelBuilder.Entity<Tag>(entity =>
+            // {
+            //     entity.HasKey(x => x.Id);
+            //     entity.Property(x => x.Name).HasMaxLength(100).IsRequired();
+            //     entity.HasData(DataContextSeeder.CreateSeedTag());
+            // });
 
             modelBuilder.Entity<TodoTag>(entity =>
             {
-                entity.HasKey(x => new { x.TodoId, x.TagId });
+                entity.HasKey(x => new { x.TodoId, x.Tag });
                 entity.HasOne(x => x.Todo)
                     .WithMany(x => x.TodoTags)
                     .HasForeignKey(x => x.TodoId);
-                entity.HasOne(x => x.Tag)
-                    .WithMany(x => x.TodoTags)
-                    .HasForeignKey(x => x.TagId);
+                entity.HasData(DataContextSeeder.CreateSeedTodoTag().ToArray());
             });
         }
-
-        public DbSet<User> Users { get; set; }
-        public DbSet<Todo> Todos { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<TodoTag> TodoTags { get; set; }
-        public DbSet<Category> Categories { get; set; }
     }
 
     public static class DataContextSeeder
@@ -117,16 +114,24 @@ namespace WebApi.Helpers
                     CreatedDate = DateTime.Now,
                     CreatedBy = 1,
                     IsCompleted = false,
-                    CategoryId = (i % 4) + 1
+                    CategoryId = (i % 4) + 1,
+                    // TodoTags = new List<TodoTag>
+                    // {
+                    //     new TodoTag { TodoId = i, Tag = "Tag" + i },
+                    //     new TodoTag { TodoId = i, Tag = "Tag" + (i + 1) }
+                    // }
                 });
         }
 
-        public static IEnumerable<Tag> CreateSeedTag()
+        public static IEnumerable<TodoTag> CreateSeedTodoTag()
         {
-            yield return new Tag { Id = 1, Name = "National" };
-            yield return new Tag { Id = 2, Name = "Fashion" };
-            yield return new Tag { Id = 3, Name = "Learning" };
-            yield return new Tag { Id = 4, Name = "Hobby" };
+            yield return new TodoTag { TodoId = 1, Tag = "Learning" };
+            yield return new TodoTag { TodoId = 1, Tag = "Shopping" };
+            yield return new TodoTag { TodoId = 2, Tag = "Learning" };
+            yield return new TodoTag { TodoId = 2, Tag = "Shopping" };
+            yield return new TodoTag { TodoId = 3, Tag = "Shopping" };
+            yield return new TodoTag { TodoId = 4, Tag = "Shopping" };
+            yield return new TodoTag { TodoId = 5, Tag = "Shopping" };
         }
     }
 }

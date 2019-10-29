@@ -7,7 +7,8 @@ export const todoActions = {
   getTodos,
   markCompleted,
   remove,
-  create
+  create,
+  update
 };
 
 function getTodos() {
@@ -115,6 +116,35 @@ function create(todo) {
   }
   function failure(error) {
     return { type: todoConstants.CREATE_FAILURE, error };
+  }
+}
+
+function update(todo) {
+  return dispatch => {
+    dispatch(request(todo));
+
+    todoService.update(todo).then(
+      data => {
+        dispatch(success(todo));
+
+        refreshTodoList(dispatch);
+        //history.push("/todos");
+      },
+      error => {
+        dispatch(failure(error.toString()));
+        dispatch(alertActions.error(error.toString()));
+      }
+    );
+  };
+
+  function request() {
+    return { type: todoConstants.UPDATE_REQUEST };
+  }
+  function success(todo) {
+    return { type: todoConstants.UPDATE_SUCCESS, todo };
+  }
+  function failure(error) {
+    return { type: todoConstants.UPDATE_FAILURE, error };
   }
 }
 

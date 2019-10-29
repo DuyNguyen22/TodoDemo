@@ -10,7 +10,7 @@ using WebApi.Helpers;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191025221950_InitialCreate")]
+    [Migration("20191027150320_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,45 +76,6 @@ namespace WebApi.Migrations
                         });
                 });
 
-            modelBuilder.Entity("WebApi.Entities.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "National"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Fashion"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Learning"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Hobby"
-                        });
-                });
-
             modelBuilder.Entity("WebApi.Entities.Todo", b =>
                 {
                     b.Property<int>("Id")
@@ -157,7 +118,7 @@ namespace WebApi.Migrations
                             Id = 1,
                             CategoryId = 2,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 482, DateTimeKind.Local).AddTicks(520),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 65, DateTimeKind.Local).AddTicks(8779),
                             Description = "Desciption-1",
                             IsCompleted = false,
                             Title = "Title-1"
@@ -167,7 +128,7 @@ namespace WebApi.Migrations
                             Id = 2,
                             CategoryId = 3,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1316),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4241),
                             Description = "Desciption-2",
                             IsCompleted = false,
                             Title = "Title-2"
@@ -177,7 +138,7 @@ namespace WebApi.Migrations
                             Id = 3,
                             CategoryId = 4,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1381),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4348),
                             Description = "Desciption-3",
                             IsCompleted = false,
                             Title = "Title-3"
@@ -187,7 +148,7 @@ namespace WebApi.Migrations
                             Id = 4,
                             CategoryId = 1,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1386),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4358),
                             Description = "Desciption-4",
                             IsCompleted = false,
                             Title = "Title-4"
@@ -197,7 +158,7 @@ namespace WebApi.Migrations
                             Id = 5,
                             CategoryId = 2,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1390),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4365),
                             Description = "Desciption-5",
                             IsCompleted = false,
                             Title = "Title-5"
@@ -207,7 +168,7 @@ namespace WebApi.Migrations
                             Id = 6,
                             CategoryId = 3,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1393),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4390),
                             Description = "Desciption-6",
                             IsCompleted = false,
                             Title = "Title-6"
@@ -217,7 +178,7 @@ namespace WebApi.Migrations
                             Id = 7,
                             CategoryId = 4,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1397),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4505),
                             Description = "Desciption-7",
                             IsCompleted = false,
                             Title = "Title-7"
@@ -227,7 +188,7 @@ namespace WebApi.Migrations
                             Id = 8,
                             CategoryId = 1,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1401),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4514),
                             Description = "Desciption-8",
                             IsCompleted = false,
                             Title = "Title-8"
@@ -237,7 +198,7 @@ namespace WebApi.Migrations
                             Id = 9,
                             CategoryId = 2,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1404),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4520),
                             Description = "Desciption-9",
                             IsCompleted = false,
                             Title = "Title-9"
@@ -247,7 +208,7 @@ namespace WebApi.Migrations
                             Id = 10,
                             CategoryId = 3,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1408),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4527),
                             Description = "Desciption-10",
                             IsCompleted = false,
                             Title = "Title-10"
@@ -257,7 +218,7 @@ namespace WebApi.Migrations
                             Id = 11,
                             CategoryId = 4,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1412),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4533),
                             Description = "Desciption-11",
                             IsCompleted = false,
                             Title = "Title-11"
@@ -267,7 +228,7 @@ namespace WebApi.Migrations
                             Id = 12,
                             CategoryId = 1,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1415),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4545),
                             Description = "Desciption-12",
                             IsCompleted = false,
                             Title = "Title-12"
@@ -277,7 +238,7 @@ namespace WebApi.Migrations
                             Id = 13,
                             CategoryId = 2,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1419),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4560),
                             Description = "Desciption-13",
                             IsCompleted = false,
                             Title = "Title-13"
@@ -287,7 +248,7 @@ namespace WebApi.Migrations
                             Id = 14,
                             CategoryId = 3,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1422),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4589),
                             Description = "Desciption-14",
                             IsCompleted = false,
                             Title = "Title-14"
@@ -297,7 +258,7 @@ namespace WebApi.Migrations
                             Id = 15,
                             CategoryId = 4,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1426),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4600),
                             Description = "Desciption-15",
                             IsCompleted = false,
                             Title = "Title-15"
@@ -307,7 +268,7 @@ namespace WebApi.Migrations
                             Id = 16,
                             CategoryId = 1,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1429),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4608),
                             Description = "Desciption-16",
                             IsCompleted = false,
                             Title = "Title-16"
@@ -317,7 +278,7 @@ namespace WebApi.Migrations
                             Id = 17,
                             CategoryId = 2,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1433),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4615),
                             Description = "Desciption-17",
                             IsCompleted = false,
                             Title = "Title-17"
@@ -327,7 +288,7 @@ namespace WebApi.Migrations
                             Id = 18,
                             CategoryId = 3,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1436),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4622),
                             Description = "Desciption-18",
                             IsCompleted = false,
                             Title = "Title-18"
@@ -337,7 +298,7 @@ namespace WebApi.Migrations
                             Id = 19,
                             CategoryId = 4,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1440),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4630),
                             Description = "Desciption-19",
                             IsCompleted = false,
                             Title = "Title-19"
@@ -347,7 +308,7 @@ namespace WebApi.Migrations
                             Id = 20,
                             CategoryId = 1,
                             CreatedBy = 1,
-                            CreatedDate = new DateTime(2019, 10, 26, 5, 19, 50, 485, DateTimeKind.Local).AddTicks(1443),
+                            CreatedDate = new DateTime(2019, 10, 27, 22, 3, 20, 70, DateTimeKind.Local).AddTicks(4638),
                             Description = "Desciption-20",
                             IsCompleted = false,
                             Title = "Title-20"
@@ -359,14 +320,49 @@ namespace WebApi.Migrations
                     b.Property<int>("TodoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
+                    b.Property<string>("Tag")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("TodoId", "TagId");
-
-                    b.HasIndex("TagId");
+                    b.HasKey("TodoId", "Tag");
 
                     b.ToTable("TodoTags");
+
+                    b.HasData(
+                        new
+                        {
+                            TodoId = 1,
+                            Tag = "Learning"
+                        },
+                        new
+                        {
+                            TodoId = 1,
+                            Tag = "Shopping"
+                        },
+                        new
+                        {
+                            TodoId = 2,
+                            Tag = "Learning"
+                        },
+                        new
+                        {
+                            TodoId = 2,
+                            Tag = "Shopping"
+                        },
+                        new
+                        {
+                            TodoId = 3,
+                            Tag = "Shopping"
+                        },
+                        new
+                        {
+                            TodoId = 4,
+                            Tag = "Shopping"
+                        },
+                        new
+                        {
+                            TodoId = 5,
+                            Tag = "Shopping"
+                        });
                 });
 
             modelBuilder.Entity("WebApi.Entities.User", b =>
@@ -419,8 +415,8 @@ namespace WebApi.Migrations
                             IsAdmin = true,
                             IsBlocked = false,
                             LastName = "System",
-                            PasswordHash = new byte[] { 83, 97, 44, 201, 241, 5, 130, 46, 188, 209, 253, 16, 53, 237, 15, 51, 127, 96, 165, 56, 164, 58, 126, 240, 172, 130, 8, 165, 231, 158, 69, 18, 18, 232, 166, 235, 246, 144, 26, 147, 12, 151, 168, 34, 69, 117, 205, 63, 113, 90, 39, 227, 191, 121, 193, 249, 220, 146, 52, 37, 31, 85, 150, 98 },
-                            PasswordSalt = new byte[] { 215, 196, 207, 187, 231, 194, 23, 205, 213, 36, 78, 157, 46, 118, 174, 92, 63, 46, 189, 234, 237, 51, 129, 108, 206, 164, 49, 42, 115, 77, 134, 16, 221, 92, 61, 249, 152, 42, 194, 169, 208, 245, 63, 199, 80, 221, 174, 4, 24, 108, 217, 167, 0, 172, 62, 252, 2, 98, 103, 192, 68, 105, 219, 240, 241, 201, 177, 26, 236, 124, 115, 158, 165, 120, 65, 28, 85, 155, 57, 26, 53, 104, 153, 10, 108, 9, 199, 186, 196, 69, 156, 155, 158, 35, 118, 6, 38, 235, 253, 127, 208, 250, 103, 225, 33, 197, 16, 241, 71, 67, 68, 145, 247, 247, 239, 244, 197, 126, 69, 54, 164, 98, 130, 164, 94, 55, 176, 67 },
+                            PasswordHash = new byte[] { 12, 152, 240, 131, 105, 153, 36, 175, 11, 40, 88, 101, 27, 54, 114, 89, 211, 53, 161, 151, 121, 29, 170, 163, 84, 146, 225, 62, 100, 86, 35, 29, 106, 72, 136, 243, 144, 206, 230, 86, 125, 190, 3, 82, 200, 4, 150, 18, 170, 8, 97, 72, 193, 42, 86, 211, 45, 101, 140, 255, 94, 86, 145, 99 },
+                            PasswordSalt = new byte[] { 99, 91, 125, 171, 254, 247, 145, 24, 44, 51, 57, 119, 227, 91, 42, 0, 113, 127, 64, 54, 90, 172, 172, 230, 74, 9, 240, 77, 89, 52, 89, 194, 149, 80, 212, 74, 86, 64, 34, 94, 186, 64, 195, 135, 35, 75, 62, 104, 245, 88, 41, 98, 41, 223, 104, 6, 234, 103, 206, 162, 255, 34, 49, 71, 145, 89, 1, 243, 67, 207, 49, 116, 71, 33, 204, 192, 192, 48, 98, 217, 16, 206, 231, 92, 57, 107, 246, 152, 204, 72, 178, 34, 197, 118, 51, 254, 149, 20, 48, 109, 222, 209, 218, 116, 237, 181, 203, 35, 120, 222, 206, 151, 119, 132, 233, 35, 116, 20, 218, 131, 59, 94, 4, 79, 62, 158, 68, 131 },
                             Username = "Admin"
                         });
                 });
@@ -442,12 +438,6 @@ namespace WebApi.Migrations
 
             modelBuilder.Entity("WebApi.Entities.TodoTag", b =>
                 {
-                    b.HasOne("WebApi.Entities.Tag", "Tag")
-                        .WithMany("TodoTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebApi.Entities.Todo", "Todo")
                         .WithMany("TodoTags")
                         .HasForeignKey("TodoId")

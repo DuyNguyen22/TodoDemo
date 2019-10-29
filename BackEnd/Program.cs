@@ -39,7 +39,7 @@ namespace WebApi
             context.Users.AddRange(DataContextSeeder.CreateSeedUser());
             context.Categories.AddRange(DataContextSeeder.CreateSeedCategory());
             context.Todos.AddRange(DataContextSeeder.CreateSeedTodo());
-            context.Tags.AddRange(DataContextSeeder.CreateSeedTag());
+            context.TodoTags.AddRange(DataContextSeeder.CreateSeedTodoTag());
             context.SaveChanges();
         }
     }

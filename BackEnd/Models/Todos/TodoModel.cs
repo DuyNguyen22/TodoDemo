@@ -1,13 +1,12 @@
 using System.Collections.Generic;
-using WebApi.Models.Tags;
 
-namespace WebApi.Models.Users
+namespace WebApi.Models.Todos
 {
     public class TodoModel
     {
         public TodoModel()
         {
-            Tags = new List<TagModel>();
+            Tags = new List<string>();
         }
         
         public int Id { get; set; }
@@ -18,6 +17,6 @@ namespace WebApi.Models.Users
         public bool IsCompleted { get; set; }
         public int CategoryId { get; set; }
         public string CategoryBackgroundColor { get; set; }
-        public List<TagModel> Tags { get; set; }
+        public List<string> Tags { get; set; }
     }
 }

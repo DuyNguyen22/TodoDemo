@@ -15,7 +15,7 @@ import {
   TagInput
 } from "evergreen-ui";
 
-class CreateTodoPage extends React.Component {
+class UpdateTodoPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -24,7 +24,8 @@ class CreateTodoPage extends React.Component {
         title: "",
         description: "",
         categoryId: "",
-        tags: []
+        tags: [],
+        ...props.todo
       },
       submitted: false
     };
@@ -69,16 +70,14 @@ class CreateTodoPage extends React.Component {
     });
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-
+  handleSubmit() {
     this.setState({ submitted: true });
     const { todo } = this.state;
     //const { tags, ...todoParam } = this.state.todo;
     //tags && (todoParam.tags = tags.map(x => ({ id: parseInt(x.value) })));
     //todoParam = { tags, ...todo };
-    if (todo.title && todo.description && todo.categoryId) {
-      this.props.create(todo);
+    if (todo.id && todo.title && todo.description && todo.categoryId) {
+      this.props.update(todo);
     }
   }
 
@@ -110,7 +109,7 @@ class CreateTodoPage extends React.Component {
     //selected && selected.id && this//this.handleSelectedCategory(selected);
     //const categories = category.items;
     return (
-      <Pane width={400} marginTop={50}>
+      <Pane width={400} marginTop={12}>
         {loadingCategory && <em>Loading categories...</em>}
         {!loadingCategory && !categories && <div>Could not load category</div>}
         {categories && (
@@ -134,7 +133,7 @@ class CreateTodoPage extends React.Component {
             />
             <FormField label="Category" marginBottom={12}>
               <Combobox
-                //initialSelectedItem={selected}
+                initialSelectedItem={selected}
                 style={
                   submitted && !categoryId
                     ? { borderColor: "red", borderStyle: "solid" }
@@ -161,28 +160,11 @@ class CreateTodoPage extends React.Component {
                   });
                 }}
               ></TagInput>
-              {/* <SelectMenu
-                isMultiSelect
-                title="Select tags"
-                options={tags.map(x => ({ label: x.name, value: x.id.toString() }))}
-                selected={selectedTags.map(x => x.value.toString())}
-                onSelect={tag => this.handleSelectTag(tag)}
-                onDeselect={tag => this.handleDeselectTag(tag)}
-              >
-                <Button onClick={() => false} type="button">
-                  {selectedTags && selectedTags.length > 0
-                    ? selectedTags.map(x => x.label).join(', ')
-                    : "Select multiple..."}
-                </Button>
-              </SelectMenu> */}
             </FormField>
 
-            <FormField isRequired={false} label=" ">
+            {/* <FormField isRequired={false} label=" ">
               <Button>Create</Button>
-              {/* {registering && (
-              <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-            )} */}
-            </FormField>
+            </FormField> */}
           </form>
         )}
       </Pane>
@@ -196,12 +178,14 @@ function mapState(state) {
 }
 
 const actionCreators = {
-  create: todoActions.create,
+  update: todoActions.update,
   loadCategories: categoryActions.getAll
 };
 
-const connectedCreateTodoPage = connect(
+const connectedUpdateTodoPage = connect(
   mapState,
-  actionCreators
-)(CreateTodoPage);
-export { connectedCreateTodoPage as CreateTodoPage };
+  actionCreators,
+  null, 
+  {withRef: true}
+)(UpdateTodoPage);
+export { connectedUpdateTodoPage as UpdateTodoPage };

@@ -85,7 +85,6 @@ namespace WebApi
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITodoService, TodoService>();
             services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ITagService, TagService>();
             services.AddSingleton<AppSettings>(appSettings);
             services.AddMvc(option => 
             {
@@ -142,7 +141,6 @@ namespace WebApi
             context.Users.AddRange(DataContextSeeder.CreateSeedUser());
             context.Categories.AddRange(DataContextSeeder.CreateSeedCategory());
             context.Todos.AddRange(DataContextSeeder.CreateSeedTodo());
-            context.Tags.AddRange(DataContextSeeder.CreateSeedTag());
             context.SaveChanges();
         }
     }

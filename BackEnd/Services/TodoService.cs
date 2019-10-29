@@ -47,7 +47,9 @@ namespace WebApi.Services
 
         public IEnumerable<Todo> GetAll()
         {
-            return _context.Todos.Include(x => x.Category);
+            return _context.Todos
+                .Include(x => x.TodoTags)
+                .Include(x => x.Category);
         }
 
         public Todo GetById(int id)
@@ -59,7 +61,6 @@ namespace WebApi.Services
         {
             return _context.Todos
                 .Include(x => x.TodoTags)
-                .Include("TodoTags.Tag")
                 .Include(x => x.Category)
                 .Where(x => x.CreatedBy == userId);
         }
@@ -79,7 +80,9 @@ namespace WebApi.Services
         public void Update(Todo todoParam)
         {
             CheckTodo(todoParam);
-            var todo = _context.Todos.Find(todoParam.Id);
+            var todo = _context.Todos
+                .Include(x => x.TodoTags)
+                .Single(x => x.Id == todoParam.Id);
 
             if (todo == null)
                 throw new AppException($"Todo {todoParam.Id} not found ");
@@ -87,6 +90,13 @@ namespace WebApi.Services
             todo.Title = todoParam.Title;
             todo.Description = todoParam.Description;
             todo.IsCompleted = todoParam.IsCompleted;
+            todo.CategoryId = todoParam.CategoryId;
+            //_context.TodoTags.RemoveRange(todo.TodoTags);
+            todo.TodoTags.Clear();
+            if (todoParam.TodoTags != null && todoParam.TodoTags.Any())
+            {
+                todoParam.TodoTags.ToList().ForEach(todo.TodoTags.Add);
+            }
 
             _context.Todos.Update(todo);
             _context.SaveChanges();

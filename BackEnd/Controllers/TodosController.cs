@@ -9,7 +9,7 @@ using WebApi.Services;
 using WebApi.Entities;
 using WebApi.Models.Users;
 using System.Linq;
-using WebApi.Models.Tags;
+using WebApi.Models.Todos;
 
 namespace WebApi.Controllers
 {
@@ -48,11 +48,11 @@ namespace WebApi.Controllers
             var todos = _todoService.GetByUser(userId);
             // .GetAll().Where(x => x.CreatedBy == userId);
             var model = _mapper.Map<IList<TodoModel>>(todos).ToList();
-            foreach (var todo in todos.Where(x => x.TodoTags != null && x.TodoTags.Any()))
-            {
-                var todoModel = model.First(x => x.Id == todo.Id);
-                todoModel.Tags.AddRange(todo.TodoTags.Select(x => _mapper.Map<TagModel>(x.Tag)));
-            }
+            // foreach (var todo in todos.Where(x => x.TodoTags != null && x.TodoTags.Any()))
+            // {
+            //     var todoModel = model.First(x => x.Id == todo.Id);
+            //     todoModel.Tags.AddRange(todo.TodoTags.Select(x => _mapper.Map<TagModel>(x.Tag)));
+            // }
             return Ok(model);
         }
 
@@ -64,13 +64,16 @@ namespace WebApi.Controllers
             return Ok(model);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]TodoModel model)
+        [HttpPut()]
+        public IActionResult Update([FromBody]TodoModel model)
         {
             // map model to entity and set id
             var todo = _mapper.Map<Todo>(model);
-            todo.Id = id;
-
+            //todo.Id = id;
+            if (model.Tags != null && model.Tags.Any())
+            {
+                model.Tags.ForEach(tag => todo.TodoTags.Add(new TodoTag { TodoId = todo.Id, Tag = tag }));
+            }
             try
             {
                 // update user 
@@ -105,9 +108,9 @@ namespace WebApi.Controllers
             {
                 if (model.Tags != null && model.Tags.Any())
                 {
-                    foreach (var tagModel in model.Tags)
+                    foreach (var tag in model.Tags)
                     {
-                        todo.TodoTags.Add(new TodoTag { Todo = todo, TagId = tagModel.Id });
+                        todo.TodoTags.Add(new TodoTag { Todo = todo, Tag = tag });
                     }
                 }
                 // create user
