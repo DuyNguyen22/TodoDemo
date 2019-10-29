@@ -1,5 +1,5 @@
 cd "$PSScriptRoot/FrontEnd"
-npm install --prefix FontEnd
+npm install --prefix FrontEnd
 
 cd "$PSScriptRoot/FrontEnd"
 npm run build
