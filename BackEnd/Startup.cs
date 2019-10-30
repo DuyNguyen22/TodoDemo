@@ -131,7 +131,7 @@ namespace WebApi
 
                 routes.MapRoute(
                     name: "any",
-                    template: "**",
+                    template: "{*url}",
                     defaults: new { controller = "Home", action = "Index" });
             });
         }
