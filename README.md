@@ -5,7 +5,7 @@ Prerequisite
 - NetCore3.0 Sdk
   https://dotnet.microsoft.com/download/dotnet-core/3.0
 - Nodejs
-- EntittyFrameworkCore command line
+- EntityFrameworkCore command line
   dotnet tool install --global dotnet-ef
   
   Configuration
